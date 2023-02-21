@@ -5,7 +5,7 @@ import {UserDto} from "@app/dtos/user-dto";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
-import {NgForOf} from "@angular/common";
+import {DatePipe, NgForOf} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {EditUserDialogComponent} from "@app/user-list-page/edit-user/edit-user-dialog.component";
 import {Subscription} from "rxjs";
@@ -22,6 +22,7 @@ import {Subscription} from "rxjs";
     MatCardModule,
     NgForOf,
     MatListModule,
+    DatePipe,
   ]
 })
 export class UserPageComponent implements OnInit, OnDestroy {

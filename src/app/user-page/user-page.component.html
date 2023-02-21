@@ -10,7 +10,7 @@
       <mat-divider></mat-divider>
       <div>Role: {{currentUser.role}}</div>
       <mat-divider></mat-divider>
-      <div>Creation Date: {{currentUser.creationDate}}</div>
+      <div>Creation Date: {{currentUser.creationDate | date: 'dd-MM-yyyy HH:mm:ss'}}</div>
     </mat-card>
 
 
