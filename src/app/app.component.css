@@ -1,0 +1,11 @@
+.nav-bar-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: end;
+}
+
+.nav-bar-items-container {
+  display: flex;
+  gap: 10px;
+}
+

@@ -1,7 +1,7 @@
 ﻿import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, switchMap} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {UserDto} from "@app/dtos/user-dto";
 import {env} from "@environments/env";
@@ -41,19 +41,23 @@ export class AccountService {
     this.router.navigate(['/account/login']);
   }
 
-  register(user: UserDto): Observable<UserDto> {
-    return this.http.post(`${env.apiUrl}/users/register`, user);
+  register(user: UserDto): Observable<any> {
+    return this.http.post(`${env.apiUrl}/users/register`, user).pipe(
+      switchMap(() => {
+        return this.login(user.username, user.password)
+      })
+    );
   }
 
   getAll(): Observable<UserDto[]> {
     return this.http.get<UserDto[]>(`${env.apiUrl}/users`);
   }
 
-  getById(id: string): Observable<UserDto> {
+  getById(id: string): Observable<any> {
     return this.http.get<UserDto>(`${env.apiUrl}/users/${id}`);
   }
 
-  update(id: number, params: any): Observable<UserDto> {
+  update(id: string, params: any): Observable<any> {
     return this.http.put(`${env.apiUrl}/users/${id}`, params)
       .pipe(map(x => {
         if (id == this.userValue?.id) {
@@ -67,7 +71,7 @@ export class AccountService {
       }));
   }
 
-  delete(id: number): Observable<UserDto> {
+  delete(id: string): Observable<any> {
     return this.http.delete(`${env.apiUrl}/users/${id}`)
       .pipe(map(x => {
         // auto logout if the logged in user deleted their own record

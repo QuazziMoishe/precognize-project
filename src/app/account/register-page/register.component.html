@@ -1,0 +1,54 @@
+﻿<div class="login-container">
+  <p>Register</p>
+  <div>
+    <form [formGroup]="form" class="inputs-container">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input required matInput type="text" formControlName="firstName"/>
+        <mat-error *ngIf="form.controls.firstName.errors?.required">
+          First Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input required matInput type="text" formControlName="lastName"/>
+        <mat-error *ngIf="form.controls.lastName.errors?.required">
+          Last Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+
+        <mat-label>Username</mat-label>
+        <input required matInput type="text" formControlName="username"/>
+        <mat-error *ngIf="form.controls.username.errors?.required">
+          Username is required
+        </mat-error>
+
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input required matInput type="password" formControlName="password"/>
+
+        <mat-error *ngIf="form.controls.password.errors?.required">
+          Password is required
+        </mat-error>
+
+        <mat-error *ngIf="form.controls.password.errors?.minlength">
+          Password must be at least {{minPasswordLength}} characters
+        </mat-error>
+
+      </mat-form-field>
+      <div class="buttons-container">
+        <button mat-raised-button color="primary" [disabled]="loading"
+                (click)="redirectToLoginForm()">
+          Cancel
+        </button>
+
+        <button mat-raised-button color="primary" [disabled]="loading"
+                (click)="onSubmit()">
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

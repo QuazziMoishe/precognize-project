@@ -7,12 +7,14 @@ import {
   HttpInterceptor,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
+import {v4 as uuid} from 'uuid';
 import {Observable, of, throwError} from 'rxjs';
 import {delay, materialize, dematerialize} from 'rxjs/operators';
 import {UserDto} from "@app/dtos/user-dto";
 
-const usersKey = 'precognize-user-key';
-let users: UserDto[] = JSON.parse(localStorage.getItem(usersKey)!) || [];
+const adminUser: UserDto = {id: uuid(), firstName: 'admin', lastName: 'admin', creationDate: (new Date).getTime(), password: 'admin123', role: 'admin', username: 'admin', token: 'fake-jwt-admin-token'}
+export const usersKey = 'precognize-user-key';
+let users: UserDto[] = JSON.parse(localStorage.getItem(usersKey)) || [adminUser];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -32,15 +34,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     const register = (): Observable<HttpResponse<any>> => {
-      const user = body
-
-
-      if (users.find(x => x.username === user.username)) {
-        return error('Username "' + user.username + '" is already taken')
+      if (users.find(x => x.username === body.username)) {
+        return error('Username "' + body.username + '" is already taken')
       }
 
-      user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-      users.push(user);
+      body.id = uuid();
+      body.role = 'user'
+      body.creationDate = (new Date).getTime();
+      users.push(body);
       localStorage.setItem(usersKey, JSON.stringify(users));
       return getSuccessStatus();
     }
@@ -73,7 +74,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return getSuccessStatus();
     }
 
-    const deleteUser = (): Observable<HttpResponse<any>> => {
+    const deleteUser = (): Observable<HttpResponse<UserDto>> => {
       if (!isLoggedIn()) return unauthorized();
 
       users = users.filter(x => x.id !== idFromUrl());
@@ -81,33 +82,33 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return getSuccessStatus();
     }
 
-    const getSuccessStatus = (body?: any): Observable<HttpResponse<any>> => {
+    const getSuccessStatus = (body?: any): Observable<HttpResponse<UserDto>> => {
       return of(new HttpResponse({status: 200, body}))
-        .pipe(delay(500));
+        .pipe(delay(200));
     }
 
-    const error = (message: string): Observable<HttpResponse<any>> => {
+    const error = (message: string): Observable<HttpResponse<UserDto>> => {
       return throwError(() => ({error: {message}}))
-        .pipe(materialize(), delay(500), dematerialize());
+        .pipe(materialize(), delay(200), dematerialize());
     }
 
-    const unauthorized = (): Observable<HttpResponse<any>> => {
+    const unauthorized = (): Observable<HttpResponse<UserDto>> => {
       return throwError(() => ({status: 401, error: {message: 'Unauthorized'}}))
-        .pipe(materialize(), delay(500), dematerialize());
+        .pipe(materialize(), delay(200), dematerialize());
     }
 
-    const getUserDetails = (user: any): UserDto => {
-      const {id, username, firstName, lastName} = user;
-      return {id, username, firstName, lastName};
+    const getUserDetails = (user: any): Partial<UserDto> => {
+      const {id, username, firstName, lastName, role, creationDate} = user;
+      return {id, username, firstName, lastName, role, creationDate};
     }
 
     const isLoggedIn = (): boolean => {
       return headers.get('Authorization') === 'Bearer fake-jwt-token';
     }
 
-    const idFromUrl = (): number => {
+    const idFromUrl = (): string => {
       const urlParts = url.split('/');
-      return parseInt(urlParts[urlParts.length - 1]);
+      return urlParts[urlParts.length - 1];
     }
 
     const handleRoute = (): Observable<HttpEvent<any>> => {

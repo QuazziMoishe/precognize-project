@@ -1,0 +1,31 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 20px;
+  justify-self: center;
+}
+
+.inputs-container {
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-container mat-form-field {
+  width: 300px;
+}
+
+.nav-bar-items-container {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+.main-container {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+}
