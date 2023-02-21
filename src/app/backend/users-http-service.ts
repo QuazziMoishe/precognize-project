@@ -119,11 +119,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return register();
         case url.endsWith('/users') && method === 'GET':
           return getUsers();
-        case url.match(/\/users\/\d+$/) && method === 'GET':
+        case url.match(/\/users\/\.*/) && method === 'GET':
           return getUserById();
-        case url.match(/\/users\/\d+$/) && method === 'PUT':
+        case url.match(/\/users\/\.*/) && method === 'PUT':
           return updateUser();
-        case url.match(/\/users\/\d+$/) && method === 'DELETE':
+        case url.match(/\/users\/\.*/) && method === 'DELETE':
           return deleteUser();
         default:
           return next.handle(request);

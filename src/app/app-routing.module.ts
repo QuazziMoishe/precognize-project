@@ -15,6 +15,11 @@ const routes: Routes = [
     loadComponent: () => import('./user-list-page/user-list-page.component').then(c => c.UserListPageComponent),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'user',
+    loadComponent: () => import('./user-page/user-page.component').then(c => c.UserPageComponent),
+    canActivate: [AuthGuard]
+  },
   {path: 'account', loadChildren: () => import('./account/account.module').then(x => x.AccountModule)},
 ];
 

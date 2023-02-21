@@ -9,9 +9,8 @@ import {AccountService} from "@app/services/account.service";
 })
 export class AppComponent {
   user: UserDto;
-
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
   ) {
     this.accountService.user.subscribe(x => this.user = x);
   }

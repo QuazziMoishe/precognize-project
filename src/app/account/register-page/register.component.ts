@@ -1,16 +1,24 @@
 ﻿import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 import {AccountService} from "@app/services/account.service";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {NgIf} from "@angular/common";
 
-@Component(
-  {
-    templateUrl: 'register.component.html',
-    styleUrls: ['register.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-  },
-)
+@Component({
+  templateUrl: 'register.component.html',
+  styleUrls: ['register.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    NgIf
+  ]
+})
 
 export class RegisterComponent implements OnInit {
   form: FormGroup;
@@ -61,7 +69,8 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  redirectToLoginForm() {
+  redirectToLoginForm(event: MouseEvent) {
+    event.preventDefault();
     this.router.navigate(['../login'], {relativeTo: this.route})
   }
 }

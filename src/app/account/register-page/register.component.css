@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -18,14 +18,8 @@
   width: 300px;
 }
 
-.nav-bar-items-container {
+.buttons-container {
   display: flex;
   gap: 10px;
-  justify-content: end;
-}
-
-.main-container {
-  padding-top: 40px;
-  display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }

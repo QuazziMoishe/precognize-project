@@ -1,7 +1,8 @@
-﻿<div class="register-container">
-  <p>Register</p>
+<div class="main-container">
+  <div class="title precognize-font">Edit User "{{user.username}}"</div>
   <div>
     <form [formGroup]="form" class="inputs-container">
+
       <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
         <input required matInput type="text" formControlName="firstName"/>
@@ -9,6 +10,7 @@
           First Name is required
         </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Last Name</mat-label>
         <input required matInput type="text" formControlName="lastName"/>
@@ -16,37 +18,36 @@
           Last Name is required
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline">
 
+      <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
         <input required matInput type="text" formControlName="username"/>
         <mat-error *ngIf="form.controls.username.errors?.required">
           Username is required
         </mat-error>
-
       </mat-form-field>
+
+
       <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input required matInput type="password" formControlName="password"/>
-
-        <mat-error *ngIf="form.controls.password.errors?.required">
-          Password is required
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of ['user', 'admin']" [value]="role">
+            {{role}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.role.errors?.required">
+          Role is required
         </mat-error>
-
-        <mat-error *ngIf="form.controls.password.errors?.minlength">
-          Password must be at least {{minPasswordLength}} characters
-        </mat-error>
-
       </mat-form-field>
+
       <div class="buttons-container">
-        <button mat-raised-button color="primary" [disabled]="loading"
-                (click)="redirectToLoginForm($event)">
+        <button mat-raised-button color="primary" (click)="onCancel()">
           Cancel
         </button>
 
-        <button mat-raised-button color="primary" [disabled]="loading"
+        <button mat-raised-button color="primary" [disabled]="form.invalid || form.pristine"
                 (click)="onSubmit()">
-          Register
+          Submit
         </button>
       </div>
     </form>

@@ -1,11 +1,13 @@
+.app-container {
+  padding: 0 20px;
+}
+
 .nav-bar-container {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 
-.nav-bar-items-container {
-  display: flex;
-  gap: 10px;
+.logout-button {
+  flex-shrink: 0;
 }
-

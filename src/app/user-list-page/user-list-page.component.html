@@ -6,34 +6,49 @@
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="creationDate">
+    <ng-container matColumnDef="{{displayedColumnsEnum.creationDate}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>
       <td mat-cell *matCellDef="let row"> {{row.creationDate | date: 'dd-MM-yyyy HH:mm:ss'}} </td>
     </ng-container>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="firstName">
+    <ng-container matColumnDef="{{displayedColumnsEnum.firstName}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
       <td mat-cell *matCellDef="let row">{{row.firstName}} {{row.lastName}}</td>
     </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="role">
+    <ng-container matColumnDef="{{displayedColumnsEnum.role}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
       <td mat-cell *matCellDef="let row"> {{row.role}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="{{displayedColumnsEnum.actions}}">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td #cell mat-cell *matCellDef="let row">
+        <mat-icon *ngIf="currentUser.role === 'admin'" class="actions-menu-icon" [matMenuTriggerFor]="actionsMenu">
+          more_vert
+        </mat-icon>
+        <mat-menu #actionsMenu="matMenu">
+          <button mat-menu-item (click)="openEditUserDialog(row)">
+            <mat-icon class="actions-icon">edit</mat-icon>
+            {{actionsEnum.edit | titlecase}}
+          </button>
+          <button mat-menu-item (click)="deleteUser(row)">
+            <mat-icon class="actions-icon">delete_outline</mat-icon>
+            {{actionsEnum.delete | titlecase}}
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Row shown when there is no matching data. -->
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data to display</td>
+      <td class="mat-cell">
+        <div class="no-data-placeholder">No data to display</div>
+      </td>
     </tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
-

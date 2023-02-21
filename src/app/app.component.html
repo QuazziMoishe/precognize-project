@@ -1,13 +1,31 @@
-<nav *ngIf="user" class="nav-bar-container">
-  <div class="nav-bar-items-container">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-    <a routerLink="/users" routerLinkActive="active">Users</a>
-    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-  </div>
-</nav>
-
+<!--<nav mat-tab-nav-bar class="nav-bar-container">-->
+<!--    <a mat-tab-link routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>-->
+<!--    <a  mat-tab-link routerLink="/users" routerLinkActive="active">Users</a>-->
+<!--</nav>-->
 <div class="app-container">
-  <router-outlet></router-outlet>
+  <div *ngIf="user"  class="nav-bar-container">
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a #rla="routerLinkActive"
+         mat-tab-link
+         routerLink="/user"
+         [active]="rla.isActive"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a #rla2="routerLinkActive"
+         mat-tab-link
+         routerLink="/users"
+         [active]="rla2.isActive"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}">Users</a>
+    </nav>
+    <button class="logout-button" mat-raised-button color="primary" (click)="logout()">Logout</button>
+  </div>
+
+
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
 </div>
+
+
+

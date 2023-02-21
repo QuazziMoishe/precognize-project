@@ -57,16 +57,14 @@ export class AccountService {
     return this.http.get<UserDto>(`${env.apiUrl}/users/${id}`);
   }
 
-  update(id: string, params: any): Observable<any> {
-    return this.http.put(`${env.apiUrl}/users/${id}`, params)
+  update(params: UserDto): Observable<any> {
+    return this.http.put(`${env.apiUrl}/users/${params.id}`, params)
       .pipe(map(x => {
-        if (id == this.userValue?.id) {
-          const user = {...this.userValue, ...params};
-          localStorage.setItem('user', JSON.stringify(user));
-
-          // publish updated user to subscribers
-          this.userSubject.next(user);
+        localStorage.setItem('user', JSON.stringify(params));
+        if (params.id === this.userValue.id) {
+          this.userSubject.next({...this.userValue, ...params});
         }
+
         return x;
       }));
   }

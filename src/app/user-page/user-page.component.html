@@ -1,1 +1,24 @@
-<p>user-page works!</p>
+<div class="main-container">
+
+  <div class="info-wrapper">
+    <mat-card class="precognize-font">
+      <div>First Name: {{currentUser.firstName}}</div>
+      <mat-divider></mat-divider>
+      <div>Last Name: {{currentUser.lastName}}</div>
+      <mat-divider></mat-divider>
+      <div>Username: {{currentUser.username}}</div>
+      <mat-divider></mat-divider>
+      <div>Role: {{currentUser.role}}</div>
+      <mat-divider></mat-divider>
+      <div>Creation Date: {{currentUser.creationDate}}</div>
+    </mat-card>
+
+
+    <div>
+      <button mat-raised-button color="primary" (click)="openEditUserDialog()">
+        Edit
+      </button>
+    </div>
+  </div>
+
+</div>
