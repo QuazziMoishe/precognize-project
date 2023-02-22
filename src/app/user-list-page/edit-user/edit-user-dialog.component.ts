@@ -6,6 +6,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
+import {AccountService} from "@app/services/account.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-edit-user',
@@ -30,14 +32,18 @@ export class EditUserDialogComponent implements OnInit {
     lastName: FormControl<string | null>;
     role: FormControl<'user' | 'admin' | null>;
   }>;
+  private userSubscription: Subscription;
+  currentUser: UserDto;
   constructor(
     @Inject(MAT_DIALOG_DATA) public user: UserDto,
+    private readonly accountService: AccountService,
     private readonly dialogRef: MatDialogRef<EditUserDialogComponent>,
     private formBuilder: FormBuilder,
   ) {}
 
 
   ngOnInit() {
+    this.userSubscription = this.accountService.user.subscribe(user => this.currentUser = user);
     this.initForm();
   }
 

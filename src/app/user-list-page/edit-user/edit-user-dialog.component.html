@@ -28,7 +28,7 @@
       </mat-form-field>
 
 
-      <mat-form-field appearance="outline">
+      <mat-form-field *ngIf="currentUser.role === 'admin'" appearance="outline">
         <mat-label>Role</mat-label>
         <mat-select formControlName="role">
           <mat-option *ngFor="let role of ['user', 'admin']" [value]="role">
