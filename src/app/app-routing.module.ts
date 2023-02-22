@@ -7,7 +7,7 @@ import {AuthGuard} from "@app/backend/auth.guard";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'users',
+    redirectTo: 'user',
     pathMatch: 'full',
   },
   {
